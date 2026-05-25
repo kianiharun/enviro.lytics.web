@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>enviro.lytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--nav:#3a0a14;--burg:#6e1423;--rose:#c4556a;--cream:#faf7f2;--cream2:#f5efe4;--cream3:#ede4d6;--sand:#ddd4c0;--ink:#1a0c10;--slate:#5a4448;--g:#16a34a;--g2:#dcfce7;--a:#d97706;--a2:#fef3c7;--r:#dc2626;--r2:#fee2e2;--b:#2563eb;--b2:#dbeafe;--sw:210px;--th:52px;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;overflow:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream2);color:var(--ink);display:flex;}
+.sb{width:var(--sw);background:var(--nav);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;}
+.sb-logo{padding:18px 16px 15px;border-bottom:1px solid rgba(196,85,106,.12);display:flex;align-items:center;gap:10px;}
+.lw{font-family:'Outfit',sans-serif;font-size:18px;font-weight:900;letter-spacing:-.5px;color:var(--cream);}
+.lw span{color:var(--rose);}
+.sb-co{padding:10px 16px;border-bottom:1px solid rgba(250,247,242,.05);}
+.sb-co-n{font-size:11px;font-weight:600;color:rgba(250,247,242,.6);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sb-tag{display:inline-flex;align-items:center;gap:4px;font-size:9px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--rose);background:rgba(196,85,106,.12);padding:2px 7px;border-radius:20px;}
+.sb-tag::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--rose);}
+.ns{padding:4px 10px;}
+.nl{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,247,242,.18);padding:9px 8px 4px;}
+.ni{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:7px;cursor:pointer;color:rgba(250,247,242,.35);font-size:12px;font-weight:400;margin-bottom:1px;transition:all .15s;border:none;background:none;width:100%;text-align:left;}
+.ni:hover{background:rgba(250,247,242,.05);color:rgba(250,247,242,.7);}
+.ni.on{background:rgba(196,85,106,.15);color:var(--cream);font-weight:500;}
+.na{margin-left:auto;background:var(--rose);color:white;font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;}
+.sb-u{margin-top:auto;padding:12px 16px;border-top:1px solid rgba(250,247,242,.05);display:flex;align-items:center;gap:9px;}
+.uav{width:28px;height:28px;border-radius:7px;background:var(--burg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#d4788a;flex-shrink:0;font-family:'Outfit',sans-serif;}
+.un{font-size:11px;font-weight:500;color:rgba(250,247,242,.55);}
+.ur{font-size:10px;color:rgba(250,247,242,.25);}
+.main{margin-left:var(--sw);flex:1;display:flex;flex-direction:column;min-height:100vh;overflow:hidden;}
+.tb{height:var(--th);background:var(--cream);border-bottom:1px solid var(--sand);display:flex;align-items:center;justify-content:space-between;padding:0 22px;flex-shrink:0;position:sticky;top:0;z-index:40;}
+.tb-t{font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.3px;color:var(--ink);}
+.tb-r{display:flex;align-items:center;gap:8px;}
+.btn{padding:7px 16px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:none;}
+.bp{background:var(--burg);color:var(--cream);}
+.bp:hover{background:#5a1020;}
+.bg{background:var(--cream3);color:var(--slate);border:1px solid var(--sand);}
+.bg:hover{background:var(--sand);}
+.bsm{padding:5px 12px;font-size:11px;}
+.bgrn{background:var(--g);color:white;}
+.bgrn:hover{background:#15803d;}
+.cnt{flex:1;padding:20px 22px;overflow-y:auto;}
+.cnt::-webkit-scrollbar{width:4px;}
+.cnt::-webkit-scrollbar-thumb{background:var(--sand);border-radius:2px;}
+.sc{display:none;}
+.sc.on{display:block;}
+.card{background:var(--cream);border:1px solid var(--sand);border-radius:11px;}
+.ch{padding:12px 18px;border-bottom:1px solid var(--sand);display:flex;align-items:center;justify-content:space-between;}
+.ct{font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;letter-spacing:-.2px;color:var(--ink);}
+.cb{padding:16px 18px;}
+.sl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--slate);opacity:.5;margin:16px 0 7px;}
+.sl:first-child{margin-top:0;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.bdg{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;}
+.bdg::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;}
+.bg2{background:var(--g2);color:var(--g);}
+.ba2{background:var(--a2);color:var(--a);}
+.br2{background:var(--r2);color:var(--r);}
+.bb2{background:var(--b2);color:var(--b);}
+.bs2{background:var(--cream3);color:var(--slate);}
+.stc{background:var(--cream);border:1px solid var(--sand);border-radius:11px;padding:18px;}
+.sv{font-family:'Outfit',sans-serif;font-size:34px;font-weight:800;line-height:1;margin-bottom:4px;}
+.sl2{font-size:11px;color:var(--slate);opacity:.6;line-height:1.4;}
+.ci{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer;transition:background .15s;}
+.ci:hover{background:var(--cream2);}
+.ci:last-child{border-bottom:none;}
+.cr{position:relative;width:44px;height:44px;flex-shrink:0;}
+.cr svg{transform:rotate(-90deg);}
+.crn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Outfit',sans-serif;font-size:11px;font-weight:800;}
+.cif{flex:1;min-width:0;}
+.cin{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+.cis{font-size:11px;color:var(--slate);opacity:.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cst{text-align:right;flex-shrink:0;}
+.cd{font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;line-height:1;}
+.cdl{font-size:10px;color:var(--slate);opacity:.5;}
+.ai{display:flex;gap:12px;align-items:flex-start;padding:11px 18px;border-bottom:1px solid rgba(0,0,0,.04);}
+.ai:last-child{border-bottom:none;}
+.aico{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.atn{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px;}
+.ats{font-size:11px;color:var(--slate);opacity:.55;line-height:1.4;}
+.clin{width:100%;padding:10px 14px;border:1.5px solid var(--sand);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--cream2);outline:none;resize:none;transition:border-color .15s;min-height:80px;}
+.clin:focus{border-color:var(--rose);background:var(--cream);}
+.clin::placeholder{color:var(--slate);opacity:.4;}
+.rb{background:var(--cream);border:1.5px solid var(--g);border-radius:11px;overflow:hidden;display:none;animation:fi .4s ease;}
+@keyframes fi{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fi{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+.rh{background:var(--g2);padding:12px 18px;border-bottom:1px solid rgba(22,163,74,.2);display:flex;align-items:center;gap:8px;}
+.rht{font-size:12px;font-weight:700;color:var(--g);}
+.rg{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.rf{padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.05);border-right:1px solid rgba(0,0,0,.05);}
+.rf:nth-child(even){border-right:none;}
+.rf:last-child,.rf:nth-last-child(2){border-bottom:none;}
+.rfl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);opacity:.5;margin-bottom:4px;}
+.rfv{font-size:13px;font-weight:600;color:var(--ink);}
+.rfv.code{font-family:'DM Mono',monospace;color:var(--burg);font-size:14px;}
+.rfc{font-size:10px;color:var(--slate);opacity:.45;margin-top:3px;font-family:'DM Mono',monospace;}
+.thk{display:none;align-items:center;gap:10px;padding:14px 0;}
+.td{width:6px;height:6px;border-radius:50%;background:var(--rose);animation:pulse .9s ease infinite;}
+.td:nth-child(2){animation-delay:.2s;}
+.td:nth-child(3){animation-delay:.4s;}
+.tt{font-size:12px;color:var(--slate);}
+.fg{margin-bottom:14px;}
+.fl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);opacity:.6;margin-bottom:5px;display:flex;align-items:center;gap:6px;}
+.fpf{font-size:9px;color:var(--g);font-weight:600;letter-spacing:0;text-transform:none;opacity:1;}
+.fi{width:100%;padding:9px 12px;border:1px solid var(--sand);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;transition:border-color .15s;}
+.fi:focus{border-color:var(--rose);}
+.fpfi{background:rgba(22,163,74,.05);border-color:rgba(22,163,74,.3);font-weight:500;}
+.ms{display:none;text-align:center;padding:40px 20px;}
+.msi{width:64px;height:64px;border-radius:50%;background:var(--g2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.mst{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;color:var(--ink);margin-bottom:6px;letter-spacing:-.3px;}
+.mss{font-size:13px;color:var(--slate);margin-bottom:20px;line-height:1.6;}
+.tn{font-family:'DM Mono',monospace;font-size:15px;font-weight:500;color:var(--burg);background:var(--cream3);padding:8px 16px;border-radius:7px;display:inline-block;margin-bottom:20px;}
+.vsr{position:relative;margin-bottom:14px;}
+.vs{width:100%;padding:9px 14px 9px 38px;border:1px solid var(--sand);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--cream);outline:none;transition:border-color .15s;}
+.vs:focus{border-color:var(--rose);}
+.vsic{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--slate);opacity:.4;}
+.di{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer;transition:background .15s;}
+.di:hover{background:var(--cream2);}
+.di:last-child{border-bottom:none;}
+.dic{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.dn{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px;}
+.dm{font-size:11px;color:var(--slate);opacity:.55;}
+.dz{font-size:11px;color:var(--slate);opacity:.4;margin-left:auto;flex-shrink:0;}
+.sc2{position:relative;width:100px;height:100px;margin:0 auto 10px;}
+.sc2 svg{transform:rotate(-90deg);}
+.scn{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.scnv{font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:var(--ink);line-height:1;}
+.scnl{font-size:9px;color:var(--slate);opacity:.5;}
+.cki{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.05);font-size:12px;}
+.cki:last-child{border-bottom:none;}
+.ckl{flex:1;color:var(--ink);}
+.cks{font-size:10px;font-weight:600;}
+.dt{width:100%;border-collapse:collapse;font-size:12px;}
+.dt th{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--slate);text-align:left;padding:6px 12px 8px;border-bottom:1px solid var(--sand);opacity:.55;}
+.dt td{padding:10px 12px;border-bottom:1px solid rgba(0,0,0,.04);color:var(--slate);}
+.dt td:first-child{color:var(--ink);font-weight:500;}
+.dt tr:hover td{background:var(--cream2);}
+.ph{background:var(--nav);border-radius:12px;padding:20px 22px;margin-bottom:16px;position:relative;overflow:hidden;}
+.ph::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(250,247,242,.02) 1px,transparent 1px);background-size:18px 18px;}
+.ph::after{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(196,85,106,.07),transparent 65%);right:-40px;top:50%;transform:translateY(-50%);}
+.phe{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rose);opacity:.7;margin-bottom:5px;position:relative;z-index:1;}
+.pht{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--cream);letter-spacing:-.3px;margin-bottom:3px;position:relative;z-index:1;}
+.phs{font-size:12px;color:rgba(250,247,242,.4);position:relative;z-index:1;}
+.lwrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--nav);position:fixed;inset:0;z-index:100;}
+.lbox{background:var(--cream);border-radius:16px;padding:40px 36px;width:380px;box-shadow:0 24px 80px rgba(0,0,0,.4);}
+.lt{font-family:'Outfit',sans-serif;font-size:24px;font-weight:800;color:var(--ink);margin-bottom:6px;letter-spacing:-.5px;}
+.ls{font-size:13px;color:var(--slate);margin-bottom:28px;}
+.lf{margin-bottom:14px;}
+.ll{font-size:11px;font-weight:600;color:var(--slate);margin-bottom:5px;}
+.li{width:100%;padding:10px 14px;border:1.5px solid var(--sand);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);outline:none;transition:border-color .15s;}
+.li:focus{border-color:var(--rose);}
+.lb{width:100%;padding:12px;background:var(--burg);color:var(--cream);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;transition:background .15s;}
+.lb:hover{background:#5a1020;}
+.ln{font-size:11px;color:var(--slate);opacity:.5;text-align:center;margin-top:14px;}
+@keyframes su{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes dp{0%,100%{opacity:1;}50%{opacity:.2;}}
+@keyframes spin2{to{transform:rotate(360deg);}}
+.card,.stc,.ph{animation:su .3s ease both;}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="lwrap" id="LS">
+<div class="lbox">
+
+<!-- LOGO BLOCK — dark band so white atom is visible -->
+<div style="background:var(--nav);border-radius:12px;padding:20px 24px;margin-bottom:28px;display:flex;align-items:center;gap:14px;">
+  <svg width="44" height="44" viewBox="0 0 120 120" fill="none">
+    <ellipse cx="60" cy="60" rx="52" ry="20" stroke="#ffffff" stroke-width="2.5" fill="none"/>
+    <ellipse cx="60" cy="60" rx="52" ry="20" stroke="rgba(255,255,255,.55)" stroke-width="2" fill="none" transform="rotate(60 60 60)"/>
+    <ellipse cx="60" cy="60" rx="52" ry="20" stroke="rgba(255,255,255,.28)" stroke-width="1.6" fill="none" transform="rotate(120 60 60)"/>
+    <circle cx="60" cy="60" r="8" fill="#ffffff"/>
+    <circle cx="112" cy="60" r="4.5" fill="#ffffff"/>
+  </svg>
+  <div>
+    <div style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;letter-spacing:-.5px;color:#faf7f2;line-height:1;">enviro<span style="color:#c4556a;">.</span>lytics</div>
+    <div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(250,247,242,.35);margin-top:3px;">RCRA Compliance Platform</div>
+  </div>
+</div>
+
+<div class="lt">Welcome back</div>
+<div class="ls">Sign in to your compliance dashboard</div>
+<div class="lf"><div class="ll">Email address</div><input class="li" type="email" value="james@acmemfg.com"></div>
+<div class="lf"><div class="ll">Password</div><input class="li" type="password" value="••••••••"></div>
+<button class="lb" onclick="login()">Sign in to dashboard →</button>
+<div class="ln">Acme Manufacturing LLC · LQG · EPA NYD981234567</div>
+</div>
+</div>
+
+<!-- APP -->
+<div id="APP" style="display:none;width:100%;height:100vh;">
+
+<!-- SIDEBAR -->
+<aside class="sb">
+<div class="sb-logo">
+<svg width="26" height="26" viewBox="0 0 120 120" fill="none"><ellipse cx="60" cy="60" rx="52" ry="20" stroke="#ffffff" stroke-width="2.5" fill="none"/><ellipse cx="60" cy="60" rx="52" ry="20" stroke="rgba(255,255,255,.55)" stroke-width="2" fill="none" transform="rotate(60 60 60)"/><ellipse cx="60" cy="60" rx="52" ry="20" stroke="rgba(255,255,255,.28)" stroke-width="1.6" fill="none" transform="rotate(120 60 60)"/><circle cx="60" cy="60" r="8" fill="#ffffff"/><circle cx="112" cy="60" r="4.5" fill="#ffffff"/></svg>
+<div class="lw">enviro<span>.</span>lytics</div>
+</div>
+<div class="sb-co"><div class="sb-co-n">Acme Manufacturing LLC</div><div class="sb-tag">LQG · EPA NYD981234567</div></div>
+<div class="ns">
+<div class="nl">Overview</div>
+<button class="ni on" onclick="go('db',this)"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.3"/></svg>Dashboard</button>
+</div>
+<div class="ns">
+<div class="nl">Compliance</div>
+<button class="ni" onclick="go('cl',this)"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>AI Waste Classifier</button>
+<button class="ni" onclick="go('mf',this)"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 2h10l2 2v10H2V2Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5 7h6M5 9.5h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Manifests<span class="na">2</span></button>
+<button class="ni" onclick="go('vt',this)"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M5 3V2a1 1 0 011-1h4a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.3"/></svg>Document Vault</button>
+<button class="ni" onclick="go('ip',this)"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 4V10C14 13 11 15 8 16C5 15 2 13 2 10V4L8 1Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>Inspection Prep</button>
+</div>
+<div class="ns">
+<div class="nl">AI Tools</div>
+<button class="ni" onclick="go('ai',this)"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M3 14c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M13 3l1.5-1.5M11.5 1.5L13 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>AI Compliance Assistant</button>
+</div>
+<div class="ns">
+<div class="nl">Integrations</div>
+<button class="ni" onclick="go('ts',this)"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="4" cy="8" r="2.5" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="4" r="2.5" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 8h3M9.5 8l-2-4M9.5 8l-2 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>TSDF Integrations<span class="na">2</span></button>
+</div>
+<div class="sb-u"><div class="uav">JM</div><div><div class="un">James Miller</div><div class="ur">EH&S Manager</div></div></div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+<div class="tb">
+<div class="tb-t" id="PT">Compliance Dashboard</div>
+<div class="tb-r">
+<span style="font-size:11px;color:var(--slate);opacity:.5;font-family:'DM Mono',monospace;">Apr 29, 2026</span>
+<button class="btn bg bsm" onclick="go('cl',document.querySelectorAll('.ni')[1])">+ New Classification</button>
+<button class="btn bp bsm" onclick="go('mf',document.querySelectorAll('.ni')[2])">+ New Manifest</button>
+</div>
+</div>
+
+<div class="cnt">
+
+<!-- DASHBOARD -->
+<div class="sc on" id="sc-db">
+<div class="ph"><div class="phe">Compliance Overview</div><div class="pht">Good morning, James. You have 1 urgent item.</div><div class="phs">Drum D-2247 (D001 Acetone) — 7 days remaining before accumulation limit.</div></div>
+<div class="g4" style="margin-bottom:16px;">
+<div class="stc"><div class="sv" style="color:var(--a);">1</div><div class="sl2">Drum approaching accumulation limit</div></div>
+<div class="stc"><div class="sv" style="color:var(--g);">4</div><div class="sl2">Active containers within limits</div></div>
+<div class="stc"><div class="sv">6</div><div class="sl2">Manifests submitted this year</div></div>
+<div class="stc"><div class="sv" style="color:var(--g);">87</div><div class="sl2">Compliance score</div></div>
+</div>
+<div class="g2" style="align-items:start;">
+<div class="card">
+<div class="ch"><div class="ct">Accumulation Clocks</div><span class="bdg ba2">1 urgent</span></div>
+<div>
+<div class="ci"><div class="cr"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" stroke="rgba(0,0,0,.07)" stroke-width="4" fill="none"/><circle cx="22" cy="22" r="18" stroke="#d97706" stroke-width="4" fill="none" stroke-dasharray="113.1" stroke-dashoffset="105.2" stroke-linecap="round"/></svg><div class="crn" style="color:var(--a);">7%</div></div><div class="cif"><div class="cin">D-2247 · D001 Flammable Liquid</div><div class="cis">Acetone Waste · Tank Farm · 55gal drum</div></div><div class="cst"><div class="cd" style="color:var(--a);">7</div><div class="cdl">days left</div></div></div>
+<div class="ci"><div class="cr"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" stroke="rgba(0,0,0,.07)" stroke-width="4" fill="none"/><circle cx="22" cy="22" r="18" stroke="#16a34a" stroke-width="4" fill="none" stroke-dasharray="113.1" stroke-dashoffset="56.5" stroke-linecap="round"/></svg><div class="crn" style="color:var(--g);">50%</div></div><div class="cif"><div class="cin">D-2251 · D002 Corrosive</div><div class="cis">Spent Acid · Lab · 30gal drum</div></div><div class="cst"><div class="cd" style="color:var(--g);">44</div><div class="cdl">days left</div></div></div>
+<div class="ci"><div class="cr"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" stroke="rgba(0,0,0,.07)" stroke-width="4" fill="none"/><circle cx="22" cy="22" r="18" stroke="#16a34a" stroke-width="4" fill="none" stroke-dasharray="113.1" stroke-dashoffset="28.3" stroke-linecap="round"/></svg><div class="crn" style="color:var(--g);">75%</div></div><div class="cif"><div class="cin">D-2255 · F003 Spent Solvent</div><div class="cis">Toluene Mix · Maint Bay · 55gal drum</div></div><div class="cst"><div class="cd" style="color:var(--g);">67</div><div class="cdl">days left</div></div></div>
+<div class="ci" style="border-bottom:none;"><div class="cr"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" stroke="rgba(0,0,0,.07)" stroke-width="4" fill="none"/><circle cx="22" cy="22" r="18" stroke="#16a34a" stroke-width="4" fill="none" stroke-dasharray="113.1" stroke-dashoffset="11.3" stroke-linecap="round"/></svg><div class="crn" style="color:var(--g);">90%</div></div><div class="cif"><div class="cin">D-2258 · D001 Flammable Liquid</div><div class="cis">MEK Waste · Prod Floor · 55gal drum</div></div><div class="cst"><div class="cd" style="color:var(--g);">81</div><div class="cdl">days left</div></div></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px;">
+<div class="card"><div class="ch"><div class="ct">Recent Alerts</div></div>
+<div>
+<div class="ai"><div class="aico" style="background:var(--a2);"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#d97706" stroke-width="1.3"/><path d="M8 5v3M8 10v.5" stroke="#d97706" stroke-width="1.5" stroke-linecap="round"/></svg></div><div><div class="atn">D-2247 · 7 days remaining</div><div class="ats">Drum approaching 90-day LQG limit. Schedule pickup immediately.</div></div></div>
+<div class="ai"><div class="aico" style="background:var(--g2);"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M5.5 8L7 9.5L10.5 6" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="6.5" stroke="#16a34a" stroke-width="1.3"/></svg></div><div><div class="atn">Manifest 8700-2831 confirmed</div><div class="ats">Clean Earth NJ confirmed receipt Day 6 of 35. Container closed.</div></div></div>
+<div class="ai" style="border-bottom:none;"><div class="aico" style="background:var(--b2);"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 4V10C14 13 11 15 8 16C5 15 2 13 2 10V4L8 1Z" stroke="#2563eb" stroke-width="1.3" stroke-linejoin="round"/></svg></div><div><div class="atn">Score updated · 87/100 — Well Prepared</div><div class="ats">All profiles current. 1 drum approaching limit flag.</div></div></div>
+</div></div>
+<div class="card"><div class="ch"><div class="ct">Recent Manifests</div><button class="btn bg bsm" onclick="go('mf',document.querySelectorAll('.ni')[2])">View all</button></div>
+<table class="dt"><thead><tr><th>Manifest</th><th>Waste</th><th>Status</th></tr></thead><tbody>
+<tr><td style="font-family:'DM Mono',monospace;font-size:11px;">8700-2831</td><td>F003 Solvent</td><td><span class="bdg bg2">Confirmed</span></td></tr>
+<tr><td style="font-family:'DM Mono',monospace;font-size:11px;">8700-2814</td><td>D002 Corrosive</td><td><span class="bdg bg2">Confirmed</span></td></tr>
+<tr><td style="font-family:'DM Mono',monospace;font-size:11px;">8700-2847</td><td>D001 Flammable</td><td><span class="bdg ba2">In Transit</span></td></tr>
+</tbody></table></div>
+</div>
+</div>
+</div>
+
+<!-- CLASSIFIER -->
+<div class="sc" id="sc-cl">
+<div class="ph"><div class="phe">AI Waste Classifier</div><div class="pht">Classify any waste stream in 10 seconds.</div><div class="phs">Describe your waste or upload a Safety Data Sheet. Returns EPA codes, DOT shipping name, and regulatory citations.</div></div>
+<div class="g2" style="align-items:start;">
+<div>
+<div class="card" style="padding:18px;margin-bottom:12px;">
+<div class="sl" style="margin-top:0;">Describe your waste</div>
+<textarea class="clin" id="WI" placeholder="e.g. Spent acetone from parts cleaning process, contaminated with oils and grease.">Spent acetone from parts cleaning process, contaminated with mineral oils and grease. Flash point approximately 56°F.</textarea>
+<div style="display:flex;gap:8px;margin-top:10px;align-items:center;">
+<button class="btn bp" onclick="classify()" id="CB"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="vertical-align:middle;margin-right:5px;"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Classify waste</button>
+<button class="btn bg" onclick="clearCL()">Clear</button>
+</div>
+<div class="thk" id="TH"><div class="td"></div><div class="td"></div><div class="td"></div><div class="tt">Analyzing waste characteristics against 40 CFR Part 261...</div></div>
+</div>
+<div class="rb" id="RB">
+<div class="rh"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M5.5 8L7 9.5L10.5 6" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="6.5" stroke="#16a34a" stroke-width="1.3"/></svg><div class="rht">Classification complete · High confidence (94%)</div></div>
+<div class="rg">
+<div class="rf"><div class="rfl">EPA Waste Code</div><div class="rfv code">D001</div><div class="rfc">40 CFR §261.21 · Ignitability</div></div>
+<div class="rf"><div class="rfl">DOT Shipping Name</div><div class="rfv">Flammable liquid, n.o.s.</div><div class="rfc">49 CFR §172.101</div></div>
+<div class="rf"><div class="rfl">UN Number</div><div class="rfv code">UN1993</div><div class="rfc">DOT Hazmat Table</div></div>
+<div class="rf"><div class="rfl">Hazard Class</div><div class="rfv">Class 3 · Packing Group II</div><div class="rfc">49 CFR §173.150</div></div>
+<div class="rf"><div class="rfl">Physical State</div><div class="rfv">Liquid · Flash point 56°F</div><div class="rfc">Below 140°F threshold</div></div>
+<div class="rf"><div class="rfl">LDR Standard</div><div class="rfv">CMBST or IMERC</div><div class="rfc">40 CFR §268.40</div></div>
+</div>
+<div style="padding:12px 18px;border-top:1px solid rgba(0,0,0,.06);display:flex;gap:8px;">
+<button class="btn bgrn bsm" onclick="saveP()">Save as waste profile</button>
+<button class="btn bg bsm" onclick="go('mf',document.querySelectorAll('.ni')[2])">Create manifest →</button>
+</div>
+</div>
+</div>
+<div class="card"><div class="ch"><div class="ct">Saved Waste Profiles</div><span class="bdg bg2">3 active</span></div>
+<div>
+<div style="padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.05);"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;"><div style="font-size:13px;font-weight:600;color:var(--ink);">D001 · Spent Acetone</div><span class="bdg bg2">Approved</span></div><div style="font-size:11px;color:var(--slate);opacity:.55;">UN1993 · Class 3 · PG II · TSDF: Clean Earth NJ</div><div style="font-size:10px;color:var(--slate);opacity:.38;margin-top:3px;font-family:'DM Mono',monospace;">Approved Mar 12, 2026 · Expires Mar 12, 2027</div></div>
+<div style="padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.05);"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;"><div style="font-size:13px;font-weight:600;color:var(--ink);">D002 · Spent Acid</div><span class="bdg bg2">Approved</span></div><div style="font-size:11px;color:var(--slate);opacity:.55;">UN1760 · Class 8 · PG II · TSDF: Clean Earth NJ</div><div style="font-size:10px;color:var(--slate);opacity:.38;margin-top:3px;font-family:'DM Mono',monospace;">Approved Jan 5, 2026 · Expires Jan 5, 2027</div></div>
+<div style="padding:12px 18px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;"><div style="font-size:13px;font-weight:600;color:var(--ink);">F003 · Spent Toluene</div><span class="bdg bg2">Approved</span></div><div style="font-size:11px;color:var(--slate);opacity:.55;">UN1993 · Class 3 · PG II · TSDF: US Ecology NJ</div><div style="font-size:10px;color:var(--slate);opacity:.38;margin-top:3px;font-family:'DM Mono',monospace;">Approved Feb 28, 2026 · Expires Feb 28, 2027</div></div>
+</div></div>
+</div>
+</div>
+
+<!-- MANIFEST -->
+<div class="sc" id="sc-mf">
+<div id="MF">
+<div class="ph"><div class="phe">Manifest Generation</div><div class="pht">EPA Form 8700-22 · Electronic Manifest</div><div class="phs">Green fields are pre-filled from your saved waste profile. Review, e-sign, and submit directly to EPA e-Manifest.</div></div>
+<div class="g2" style="align-items:start;">
+<div class="card"><div class="ch"><div class="ct">Generator Information</div></div><div class="cb">
+<div class="fg"><div class="fl">Generator name <span class="fpf">✓ pre-filled</span></div><input class="fi fpfi" value="Acme Manufacturing LLC" readonly></div>
+<div class="fg"><div class="fl">EPA Generator ID <span class="fpf">✓ pre-filled</span></div><input class="fi fpfi" style="font-family:'DM Mono',monospace;" value="NYD981234567" readonly></div>
+<div class="g2"><div class="fg"><div class="fl">Generator status <span class="fpf">✓ pre-filled</span></div><input class="fi fpfi" value="LQG" readonly></div><div class="fg"><div class="fl">Pickup date</div><input class="fi" type="date" value="2026-04-30"></div></div>
+</div></div>
+<div class="card"><div class="ch"><div class="ct">Waste Description</div></div><div class="cb">
+<div class="fg"><div class="fl">Waste profile <span class="fpf">✓ pre-filled from D001</span></div>
+<select class="fi fpfi" style="appearance:none;" onchange="upW(this.value)"><option value="D001" selected>D001 · Spent Acetone — Flammable Liquid</option><option value="D002">D002 · Spent Acid — Corrosive</option><option value="F003">F003 · Spent Toluene — Listed Solvent</option></select></div>
+<div class="g2">
+<div class="fg"><div class="fl">EPA waste code <span class="fpf">✓ pre-filled</span></div><input class="fi fpfi" id="EC" value="D001" readonly style="font-family:'DM Mono',monospace;"></div>
+<div class="fg"><div class="fl">DOT shipping name <span class="fpf">✓ pre-filled</span></div><input class="fi fpfi" id="DN" value="Flammable liquid, n.o.s." readonly></div>
+</div>
+<div class="g2">
+<div class="fg"><div class="fl">UN number <span class="fpf">✓ pre-filled</span></div><input class="fi fpfi" id="UN" value="UN1993" readonly style="font-family:'DM Mono',monospace;"></div>
+<div class="fg"><div class="fl">Hazard class <span class="fpf">✓ pre-filled</span></div><input class="fi fpfi" id="HC" value="Class 3 · PG II" readonly></div>
+</div>
+<div class="g2">
+<div class="fg"><div class="fl">Container count</div><input class="fi" type="number" value="2" min="1"></div>
+<div class="fg"><div class="fl">Total volume</div><input class="fi" value="110 gallons"></div>
+</div>
+</div></div>
+<div class="card"><div class="ch"><div class="ct">Transporter</div></div><div class="cb">
+<div class="fg"><div class="fl">Transporter name</div><select class="fi" style="appearance:none;"><option>Clean Harbors Transport LLC</option><option>US Ecology Transport</option></select></div>
+<div class="fg"><div class="fl">Transporter EPA ID <span class="fpf">✓ validated</span></div><input class="fi fpfi" value="NJD981234568" style="font-family:'DM Mono',monospace;" readonly></div>
+</div></div>
+<div class="card"><div class="ch"><div class="ct">Designated TSDF</div></div><div class="cb">
+<div class="fg"><div class="fl">TSDF facility <span class="fpf">✓ from approved profile</span></div><select class="fi fpfi" style="appearance:none;"><option>Clean Earth of NJ · Bridgeport, NJ</option><option>US Ecology New Jersey · Bridgeport, NJ</option></select></div>
+<div class="fg"><div class="fl">TSDF EPA ID <span class="fpf">✓ validated against RCRAInfo</span></div><input class="fi fpfi" value="NJD000508831" style="font-family:'DM Mono',monospace;" readonly></div>
+<div style="background:var(--g2);border:1px solid rgba(22,163,74,.25);border-radius:8px;padding:10px 12px;display:flex;gap:8px;align-items:flex-start;"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px;"><path d="M5.5 8L7 9.5L10.5 6" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="8" r="6.5" stroke="#16a34a" stroke-width="1.3"/></svg><div style="font-size:11px;color:var(--g);line-height:1.5;">TSDF permit active · D001 profile pre-approved · 35-day confirmation tracking starts automatically on submission.</div></div>
+</div></div>
+</div>
+<div style="display:flex;gap:10px;margin-top:14px;align-items:center;">
+<button class="btn bp" onclick="submitM()" style="padding:10px 24px;font-size:13px;">✓ E-sign and submit to EPA e-Manifest →</button>
+<button class="btn bg" onclick="alert('In the full product this generates a preview of EPA Form 8700-22 populated with your data.')">Preview PDF</button>
+</div>
+</div>
+<div id="MS" style="display:none;">
+<div class="card"><div class="ms" style="display:block;">
+<div class="msi"><svg width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M8 16L13 21L24 10" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="mst">Manifest submitted to EPA e-Manifest</div>
+<div class="mss">Your manifest has been electronically filed with EPA CDX.<br>A PDF copy has been saved to your Document Vault.</div>
+<div class="tn">EPA Tracking #: 8700-2863</div>
+<div style="font-size:12px;color:var(--slate);opacity:.55;margin-bottom:20px;">35-day TSDF confirmation clock started · Alert at Day 28 · Exception report auto-drafts at Day 35 if unconfirmed</div>
+<div style="display:flex;gap:8px;justify-content:center;">
+<button class="btn bgrn" onclick="resetM()">Submit another</button>
+<button class="btn bg" onclick="go('vt',document.querySelectorAll('.ni')[3])">View in Vault</button>
+<button class="btn bg" onclick="go('db',document.querySelector('.ni'))">Dashboard</button>
+</div>
+</div></div>
+</div>
+</div>
+
+<!-- VAULT -->
+<div class="sc" id="sc-vt">
+<div class="ph"><div class="phe">Document Vault</div><div class="pht">3-year compliance recordkeeping · Instant retrieval</div><div class="phs">Every manifest, waste profile, and SDS stored, timestamped, and searchable. Generate a full audit package in 60 seconds.</div></div>
+<div style="display:flex;gap:10px;margin-bottom:14px;align-items:center;">
+<div class="vsr" style="flex:1;"><svg class="vsic" width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.3"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><input class="vs" placeholder="Search manifests, waste codes, dates..." oninput="filterV(this.value)"></div>
+<button class="btn bp bsm" onclick="genAudit()">📦 Generate audit package</button>
+</div>
+<div class="g2" style="align-items:start;">
+<div class="card" id="DL"><div class="ch"><div class="ct">All Documents</div><span style="font-size:11px;color:var(--slate);opacity:.5;">24 documents · 3-year archive</span></div>
+<div id="DI">
+<div class="di"><div class="dic" style="background:var(--b2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2h10l2 2v10H2V2Z" stroke="#2563eb" stroke-width="1.3" stroke-linejoin="round"/></svg></div><div style="flex:1;min-width:0;"><div class="dn">Manifest 8700-2863 · D001 Flammable Liquid</div><div class="dm">Submitted Apr 29, 2026 · Clean Earth NJ · 110 gal</div></div><div style="text-align:right;flex-shrink:0;"><span class="bdg ba2">In Transit</span><div class="dz">142 KB</div></div></div>
+<div class="di"><div class="dic" style="background:var(--b2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2h10l2 2v10H2V2Z" stroke="#2563eb" stroke-width="1.3" stroke-linejoin="round"/></svg></div><div style="flex:1;min-width:0;"><div class="dn">Manifest 8700-2847 · D001 Flammable Liquid</div><div class="dm">Submitted Mar 20, 2026 · Clean Earth NJ · 45 gal</div></div><div style="text-align:right;flex-shrink:0;"><span class="bdg ba2">In Transit</span><div class="dz">138 KB</div></div></div>
+<div class="di"><div class="dic" style="background:var(--g2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2h10l2 2v10H2V2Z" stroke="#16a34a" stroke-width="1.3" stroke-linejoin="round"/></svg></div><div style="flex:1;min-width:0;"><div class="dn">Manifest 8700-2831 · F003 Spent Solvent</div><div class="dm">Submitted Mar 6, 2026 · US Ecology NJ · 110 gal · Confirmed Mar 14</div></div><div style="text-align:right;flex-shrink:0;"><span class="bdg bg2">Confirmed</span><div class="dz">141 KB</div></div></div>
+<div class="di"><div class="dic" style="background:var(--g2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2h10l2 2v10H2V2Z" stroke="#16a34a" stroke-width="1.3" stroke-linejoin="round"/></svg></div><div style="flex:1;min-width:0;"><div class="dn">Manifest 8700-2814 · D002 Corrosive</div><div class="dm">Submitted Feb 14, 2026 · Clean Earth NJ · 60 gal · Confirmed Feb 22</div></div><div style="text-align:right;flex-shrink:0;"><span class="bdg bg2">Confirmed</span><div class="dz">139 KB</div></div></div>
+<div class="di"><div class="dic" style="background:rgba(124,58,237,.1);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 4V10C14 13 11 15 8 16C5 15 2 13 2 10V4L8 1Z" stroke="#7c3aed" stroke-width="1.3" stroke-linejoin="round"/></svg></div><div style="flex:1;min-width:0;"><div class="dn">Waste Profile · D001 Spent Acetone</div><div class="dm">Created Mar 10, 2026 · Approved Clean Earth NJ Mar 12 · Valid Mar 2027</div></div><div style="text-align:right;flex-shrink:0;"><span class="bdg bg2">Active</span><div class="dz">48 KB</div></div></div>
+<div class="di"><div class="dic" style="background:rgba(124,58,237,.1);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L14 4V10C14 13 11 15 8 16C5 15 2 13 2 10V4L8 1Z" stroke="#7c3aed" stroke-width="1.3" stroke-linejoin="round"/></svg></div><div style="flex:1;min-width:0;"><div class="dn">Waste Profile · D002 Spent Acid</div><div class="dm">Created Jan 3, 2026 · Approved Clean Earth NJ Jan 5 · Valid Jan 2027</div></div><div style="text-align:right;flex-shrink:0;"><span class="bdg bg2">Active</span><div class="dz">52 KB</div></div></div>
+<div class="di"><div class="dic" style="background:var(--a2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1.5" stroke="#d97706" stroke-width="1.3"/></svg></div><div style="flex:1;min-width:0;"><div class="dn">SDS — Acetone (CAS 67-64-1)</div><div class="dm">Uploaded Jan 15, 2026 · Sigma-Aldrich · Rev 2024-11</div></div><div style="text-align:right;flex-shrink:0;"><span class="bdg bs2">SDS</span><div class="dz">824 KB</div></div></div>
+<div class="di" style="border-bottom:none;"><div class="dic" style="background:var(--a2);"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1.5" stroke="#d97706" stroke-width="1.3"/></svg></div><div style="flex:1;min-width:0;"><div class="dn">SDS — Sulfuric Acid 98% (CAS 7664-93-9)</div><div class="dm">Uploaded Jan 3, 2026 · Fisher Scientific · Rev 2024-08</div></div><div style="text-align:right;flex-shrink:0;"><span class="bdg bs2">SDS</span><div class="dz">612 KB</div></div></div>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:12px;">
+<div class="card"><div class="ch"><div class="ct">Audit Package</div></div><div class="cb">
+<p style="font-size:12px;color:var(--slate);margin-bottom:12px;line-height:1.6;">Generate a ZIP of all compliance documents. Inspector-ready in 60 seconds.</p>
+<div class="fg"><div class="fl">Date range</div><select class="fi" style="appearance:none;"><option>Last 36 months (full legal requirement)</option><option>Last 24 months</option><option>Last 12 months</option></select></div>
+<button class="btn bp" style="width:100%;" onclick="genAudit()">Generate audit package →</button>
+</div></div>
+<div class="card" id="APK" style="display:none;"><div class="cb" style="text-align:center;padding:20px;">
+<div style="width:48px;height:48px;border-radius:12px;background:var(--g2);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#16a34a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div style="font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px;">Audit package ready</div>
+<div style="font-size:12px;color:var(--slate);margin-bottom:14px;">24 documents · 4.2 MB ZIP · 36-month archive</div>
+<button class="btn bgrn bsm" style="width:100%;">⬇ Download ZIP</button>
+</div></div>
+</div>
+</div>
+</div>
+
+<!-- INSPECTION -->
+<div class="sc" id="sc-ip">
+<div class="ph"><div class="phe">Inspection Readiness</div><div class="pht">Compliance Score: 87/100 — Well Prepared</div><div class="phs">One item needs attention before your next inspection. Address D-2247 immediately.</div></div>
+<div class="g2" style="align-items:start;">
+<div class="card"><div class="ch"><div class="ct">Compliance Checklist</div></div><div class="cb">
+<div class="cki"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/><path d="M6.5 10L9 12.5L14 7" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ckl">All manifests submitted electronically (e-Manifest)</span><span class="cks" style="color:var(--g);">Pass</span></div>
+<div class="cki"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#fef3c7" stroke="#d97706" stroke-width="1.3"/><path d="M10 6v4M10 12v.5" stroke="#d97706" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ckl">All containers within accumulation time limits</span><span class="cks" style="color:var(--a);">⚠ 1 urgent</span></div>
+<div class="cki"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/><path d="M6.5 10L9 12.5L14 7" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ckl">All waste profiles current and TSDF-approved</span><span class="cks" style="color:var(--g);">Pass</span></div>
+<div class="cki"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/><path d="M6.5 10L9 12.5L14 7" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ckl">LDR notifications filed for all waste streams</span><span class="cks" style="color:var(--g);">Pass</span></div>
+<div class="cki"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/><path d="M6.5 10L9 12.5L14 7" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ckl">35-day TSDF confirmation windows monitored</span><span class="cks" style="color:var(--g);">Pass</span></div>
+<div class="cki"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/><path d="M6.5 10L9 12.5L14 7" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ckl">3-year manifest records immediately retrievable</span><span class="cks" style="color:var(--g);">Pass</span></div>
+<div class="cki"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/><path d="M6.5 10L9 12.5L14 7" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ckl">Emergency coordinator designated and documented</span><span class="cks" style="color:var(--g);">Pass</span></div>
+<div class="cki"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/><path d="M6.5 10L9 12.5L14 7" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ckl">Annual hazwaste training records on file</span><span class="cks" style="color:var(--g);">Pass</span></div>
+<div class="cki" style="border-bottom:none;"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/><path d="M6.5 10L9 12.5L14 7" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="ckl">Contingency plan current and posted</span><span class="cks" style="color:var(--g);">Pass</span></div>
+</div></div>
+<div style="display:flex;flex-direction:column;gap:12px;">
+<div class="card"><div class="ch"><div class="ct">Compliance Score</div></div><div class="cb" style="text-align:center;">
+<div class="sc2"><svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" stroke="rgba(0,0,0,.07)" stroke-width="8" fill="none"/><circle cx="50" cy="50" r="40" stroke="#16a34a" stroke-width="8" fill="none" stroke-dasharray="251.3" stroke-dashoffset="32.7" stroke-linecap="round"/></svg><div class="scn"><div class="scnv">87</div><div class="scnl">/ 100</div></div></div>
+<div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;">Well Prepared</div>
+<div style="font-size:12px;color:var(--slate);opacity:.55;margin-bottom:14px;">8 of 9 items passing · 1 warning</div>
+<div style="background:var(--a2);border:1px solid rgba(217,119,6,.25);border-radius:8px;padding:10px 12px;text-align:left;"><div style="font-size:11px;font-weight:600;color:var(--a);margin-bottom:3px;">Action required</div><div style="font-size:11px;color:var(--slate);line-height:1.5;">Schedule pickup for D-2247. Drum reaches 90-day LQG limit in 7 days.</div><button class="btn bp bsm" style="margin-top:8px;width:100%;" onclick="go('mf',document.querySelectorAll('.ni')[2])">Create manifest now →</button></div>
+</div></div>
+<div class="card"><div class="ch"><div class="ct">Inspection History</div></div>
+<div style="padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.05);display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:13px;font-weight:500;color:var(--ink);">NYSDEC Routine Inspection</div><div style="font-size:11px;color:var(--slate);opacity:.55;">November 14, 2025</div></div><span class="bdg bg2">No violations</span></div>
+<div style="padding:12px 18px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:13px;font-weight:500;color:var(--ink);">NYSDEC Routine Inspection</div><div style="font-size:11px;color:var(--slate);opacity:.55;">August 3, 2024</div></div><span class="bdg ba2">1 minor NOV</span></div>
+</div>
+<button class="btn bp" onclick="go('vt',document.querySelectorAll('.ni')[3])" style="width:100%;">Generate audit package →</button>
+</div>
+</div>
+</div>
+<!-- TSDF INTEGRATIONS -->
+<div class="sc" id="sc-ts">
+<div class="ph"><div class="phe">TSDF Integration Hub</div><div class="pht">Real-time manifest confirmation &middot; Profile pre-approval</div><div class="phs">Connected directly to your disposal facilities. Dock scans update your dashboard instantly &mdash; no phone calls, no email follow-up, no missed 35-day windows.</div></div>
+
+<div id="confAlert" style="display:none;align-items:center;gap:12px;background:var(--g2);border:1.5px solid rgba(22,163,74,.3);border-radius:10px;padding:12px 16px;margin-bottom:14px;">
+<svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/><path d="M6.5 10L9 12.5L14 7" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div style="flex:1;"><div style="font-size:13px;font-weight:600;color:var(--g);">Manifest 8700-2847 confirmed via direct API integration</div><div style="font-size:11px;color:var(--slate);">Clean Earth NJ dock scan &middot; 35-day clock stopped Day 4 &middot; Container closed &middot; Document archived automatically</div></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:start;">
+
+<div style="display:flex;flex-direction:column;gap:10px;">
+
+<div class="card" style="border-color:rgba(22,163,74,.3);">
+<div class="ch" style="background:rgba(22,163,74,.03);">
+<div style="display:flex;align-items:center;gap:12px;">
+<div style="width:40px;height:40px;border-radius:10px;background:var(--g2);display:flex;align-items:center;justify-content:center;font-family:Outfit,sans-serif;font-size:13px;font-weight:800;color:var(--g);flex-shrink:0;">CE</div>
+<div><div style="font-size:14px;font-weight:700;color:var(--ink);">Clean Earth of NJ</div><div style="font-size:10px;color:var(--slate);opacity:.55;font-family:monospace;">NJD000508831 &middot; Bridgeport NJ &middot; 28 mi</div></div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><span class="bdg bg2">Connected</span><span style="font-family:Outfit,sans-serif;font-size:13px;font-weight:800;color:var(--g);">A+</span></div>
+</div>
+<div style="padding:14px 18px;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+<div style="background:var(--g2);border-radius:8px;padding:10px 12px;"><div style="font-size:11px;font-weight:600;color:var(--g);">Manifest Confirmation</div><div style="font-size:10px;color:var(--slate);opacity:.6;">Live &middot; Real-time dock scan</div></div>
+<div style="background:var(--g2);border-radius:8px;padding:10px 12px;"><div style="font-size:11px;font-weight:600;color:var(--g);">Profile Pre-Approval</div><div style="font-size:10px;color:var(--slate);opacity:.6;">Live &middot; 24-48h target</div></div>
+</div>
+<div style="display:flex;gap:16px;padding-top:10px;border-top:1px solid var(--sand);font-size:11px;color:var(--slate);">
+<div style="text-align:center;"><div style="font-family:Outfit,sans-serif;font-size:16px;font-weight:700;color:var(--g);">6.2d</div>Avg confirm</div>
+<div style="text-align:center;"><div style="font-family:Outfit,sans-serif;font-size:16px;font-weight:700;color:var(--ink);">8</div>Confirmed</div>
+<div style="text-align:center;"><div style="font-family:Outfit,sans-serif;font-size:16px;font-weight:700;color:var(--g);">0</div>Exceptions</div>
+<div style="margin-left:auto;font-size:10px;opacity:.4;align-self:flex-end;font-family:monospace;">Last sync 4 min ago</div>
+</div>
+</div>
+</div>
+
+<div class="card" style="border-color:rgba(22,163,74,.2);">
+<div class="ch">
+<div style="display:flex;align-items:center;gap:12px;">
+<div style="width:40px;height:40px;border-radius:10px;background:var(--b2);display:flex;align-items:center;justify-content:center;font-family:Outfit,sans-serif;font-size:12px;font-weight:800;color:var(--b);flex-shrink:0;">USE</div>
+<div><div style="font-size:14px;font-weight:700;color:var(--ink);">US Ecology New Jersey</div><div style="font-size:10px;color:var(--slate);opacity:.55;font-family:monospace;">NJD981019117 &middot; Bridgeport NJ &middot; 29 mi</div></div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><span class="bdg bg2">Connected</span><span style="font-family:Outfit,sans-serif;font-size:13px;font-weight:800;color:var(--g);">A</span></div>
+</div>
+<div style="padding:14px 18px;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+<div style="background:var(--g2);border-radius:8px;padding:10px 12px;"><div style="font-size:11px;font-weight:600;color:var(--g);">Manifest Confirmation</div><div style="font-size:10px;color:var(--slate);opacity:.6;">Live &middot; Real-time</div></div>
+<div style="background:var(--a2);border-radius:8px;padding:10px 12px;"><div style="font-size:11px;font-weight:600;color:var(--a);">Profile Pre-Approval</div><div style="font-size:10px;color:var(--slate);opacity:.6;">1 pending review</div></div>
+</div>
+<div style="display:flex;gap:16px;padding-top:10px;border-top:1px solid var(--sand);font-size:11px;color:var(--slate);">
+<div style="text-align:center;"><div style="font-family:Outfit,sans-serif;font-size:16px;font-weight:700;color:var(--g);">8.1d</div>Avg confirm</div>
+<div style="text-align:center;"><div style="font-family:Outfit,sans-serif;font-size:16px;font-weight:700;color:var(--ink);">4</div>Confirmed</div>
+<div style="text-align:center;"><div style="font-family:Outfit,sans-serif;font-size:16px;font-weight:700;color:var(--a);">1 pending</div>Profile</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="ch"><div class="ct">How integration works</div></div>
+<div style="padding:14px 18px;">
+<div style="display:flex;gap:12px;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.05);">
+<div style="width:22px;height:22px;min-width:22px;border-radius:50%;background:var(--burg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--cream);">1</div>
+<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px;">You submit a manifest</div><div style="font-size:11px;color:var(--slate);opacity:.6;">Sent to EPA e-Manifest AND your connected TSDF system simultaneously via direct API.</div></div>
+</div>
+<div style="display:flex;gap:12px;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.05);">
+<div style="width:22px;height:22px;min-width:22px;border-radius:50%;background:var(--burg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--cream);">2</div>
+<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px;">TSDF scans at the dock</div><div style="font-size:11px;color:var(--slate);opacity:.6;">When your hauler arrives, the dock team scans the barcode &mdash; triggering instant confirmation.</div></div>
+</div>
+<div style="display:flex;gap:12px;align-items:flex-start;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.05);">
+<div style="width:22px;height:22px;min-width:22px;border-radius:50%;background:var(--burg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--cream);">3</div>
+<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px;">Dashboard updates instantly</div><div style="font-size:11px;color:var(--slate);opacity:.6;">35-day clock stops. Container closes. Document archived. Zero action from you.</div></div>
+</div>
+<div style="display:flex;gap:12px;align-items:flex-start;padding:7px 0;">
+<div style="width:22px;height:22px;min-width:22px;border-radius:50%;background:var(--burg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--cream);">4</div>
+<div><div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px;">Profiles approved in 24-48h</div><div style="font-size:11px;color:var(--slate);opacity:.6;">Profile requests go directly to the TSDF review queue. Approval appears in your dashboard automatically.</div></div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px;">
+
+<div class="card">
+<div class="ch"><div class="ct">Live Confirmation Feed</div><span class="bdg bg2">2 connected TSDFs</span></div>
+<div>
+<div id="mrow-2847" style="padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.05);background:var(--a2);">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+<div>
+<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px;">Manifest 8700-2847 &middot; D001 Flammable Liquid</div>
+<div style="font-size:11px;color:var(--slate);opacity:.6;">Clean Earth NJ &middot; 45 gal &middot; Submitted Mar 20</div>
+<div style="font-size:11px;color:var(--a);font-weight:500;margin-top:3px;">35-day window: Day 4 of 35</div>
+<div style="font-size:10px;color:var(--slate);opacity:.5;margin-top:2px;">Dock scan received &mdash; pending confirmation</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;margin-left:10px;">
+<span class="bdg ba2">In Transit</span>
+<button id="mbtn-2847" class="btn bgrn bsm" onclick="confirmManifest(2847)" style="white-space:nowrap;">Simulate dock scan</button>
+</div>
+</div>
+</div>
+<div style="padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.04);background:rgba(22,163,74,.02);">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div>
+<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px;">Manifest 8700-2831 &middot; F003 Spent Solvent</div>
+<div style="font-size:11px;color:var(--slate);opacity:.6;">US Ecology NJ &middot; 110 gal</div>
+<div style="font-size:11px;color:var(--g);font-weight:500;margin-top:3px;">Confirmed Mar 14 &middot; Day 8 &middot; Clock stopped</div>
+</div>
+<span class="bdg bg2">Confirmed</span>
+</div>
+</div>
+<div style="padding:12px 18px;background:rgba(22,163,74,.02);">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
+<div>
+<div style="font-size:12px;font-weight:600;color:var(--ink);margin-bottom:2px;">Manifest 8700-2814 &middot; D002 Corrosive</div>
+<div style="font-size:11px;color:var(--slate);opacity:.6;">Clean Earth NJ &middot; 60 gal</div>
+<div style="font-size:11px;color:var(--g);font-weight:500;margin-top:3px;">Confirmed Feb 22 &middot; Day 8 &middot; Clock stopped</div>
+</div>
+<span class="bdg bg2">Confirmed</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="ch"><div class="ct">Profile Pre-Approval Queue</div><span class="bdg ba2">1 pending</span></div>
+<div id="profileForm">
+<div style="padding:14px 18px;background:var(--a2);">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+<div>
+<div style="font-size:12px;font-weight:700;color:var(--ink);margin-bottom:2px;font-family:monospace;">D018 &middot; Benzene Wastewater</div>
+<div style="font-size:12px;font-weight:500;color:var(--ink);">Process Wastewater &mdash; Tank T-4</div>
+<div style="font-size:11px;color:var(--slate);opacity:.6;margin-top:2px;">Submitted to US Ecology NJ &middot; AI-classified &middot; Awaiting TSDF review</div>
+</div>
+<span class="bdg ba2">Day 1</span>
+</div>
+<div style="display:flex;gap:8px;">
+<button class="btn bp bsm" onclick="submitProfile()">Submit to TSDF</button>
+<button class="btn bg bsm" onclick="alert('In the full product this shows full profile details, SDS, and TCLP analytical data.')">View details</button>
+</div>
+</div>
+</div>
+<div id="profileSent" style="display:none;text-align:center;padding:24px 18px;">
+<div style="width:44px;height:44px;border-radius:50%;background:var(--g2);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 12L10 16L18 8" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div style="font-family:Outfit,sans-serif;font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px;">Profile submitted to US Ecology NJ</div>
+<div style="font-size:12px;color:var(--slate);margin-bottom:12px;line-height:1.6;">Sent directly to their review queue via API. No email needed. You will be notified in your dashboard when approved.</div>
+<div style="background:var(--a2);border-radius:8px;padding:10px 14px;margin-bottom:8px;text-align:left;"><div style="font-size:11px;font-weight:600;color:var(--a);margin-bottom:2px;">Before: manual process</div><div style="font-size:11px;color:var(--slate);">Email SDS, wait 2-3 weeks, call to check status. Average: 18 days.</div></div>
+<div style="background:var(--g2);border-radius:8px;padding:10px 14px;margin-bottom:12px;text-align:left;"><div style="font-size:11px;font-weight:600;color:var(--g);margin-bottom:2px;">Now: direct API submission</div><div style="font-size:11px;color:var(--slate);">Profile in TSDF review queue immediately. Target approval: 24-48 hours.</div></div>
+<button class="btn bg bsm" onclick="resetProfile()">Submit another profile</button>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<!-- AI COMPLIANCE ASSISTANT -->
+<div class="sc" id="sc-ai">
+<div class="ph"><div class="phe">AI Compliance Assistant</div><div class="pht">Ask anything about RCRA — get answers with citations.</div><div class="phs">Pre-loaded with 40 CFR Parts 261, 262, 264, 268 and 270. Knows your generator status, state, and active waste profiles. Upload photos of storage areas and drum labels for instant compliance feedback.</div></div>
+
+<div style="display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start;">
+
+<!-- CHAT PANEL -->
+<div class="card" style="display:flex;flex-direction:column;height:520px;">
+  <div class="ch">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:32px;height:32px;border-radius:8px;background:rgba(196,85,106,.1);display:flex;align-items:center;justify-content:center;">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="#c4556a" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="#c4556a" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </div>
+      <div><div class="ct">RCRA Compliance Assistant</div><div style="font-size:10px;color:var(--slate);opacity:.5;">Acme Manufacturing · LQG · NYD981234567 · New York</div></div>
+    </div>
+    <span class="bdg bg2" style="display:flex;align-items:center;gap:4px;"><span style="width:5px;height:5px;border-radius:50%;background:var(--g);display:inline-block;"></span>Online</span>
+  </div>
+
+  <div id="dChatMsgs" style="flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+    <div style="text-align:center;padding:6px 0;"><span style="font-size:10px;color:var(--slate);opacity:.45;background:var(--cream-dk);padding:2px 10px;border-radius:20px;">Today · LQG · New York</span></div>
+    <!-- Pre-loaded Q -->
+    <div style="display:flex;justify-content:flex-end;">
+      <div style="background:var(--burg);border-radius:10px 10px 2px 10px;padding:10px 14px;max-width:78%;"><div style="font-size:12px;color:var(--cream);line-height:1.55;">Do I need to update my contingency plan now that we added an F003 waste stream?</div></div>
+    </div>
+    <!-- Pre-loaded A -->
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <div style="width:26px;height:26px;border-radius:7px;background:rgba(196,85,106,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="#c4556a" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="#c4556a" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+      <div style="background:var(--cream-md);border:1px solid var(--sand);border-radius:2px 10px 10px 10px;padding:10px 14px;max-width:85%;">
+        <div style="font-size:12px;color:var(--ink);line-height:1.7;margin-bottom:6px;">Yes — as an LQG you must update your contingency plan whenever operations change materially. Adding F003 qualifies under <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--burg);font-weight:500;">40 CFR §264.54</span>, which requires amendments when facility operations change in a way affecting emergency response procedures.</div>
+        <div style="font-size:12px;color:var(--ink);line-height:1.7;margin-bottom:8px;">Your update should include F003 emergency procedures, required PPE for spent solvents, and spill containment protocols. I can auto-draft the updated section from your SDS library.</div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px;"><span style="font-size:10px;font-weight:600;color:var(--g);background:var(--g2);padding:2px 8px;border-radius:4px;">40 CFR §264.54</span><span style="font-size:10px;color:var(--slate);opacity:.55;">LQG requirement · New York</span></div>
+        <button onclick="dDraft()" class="btn bp bsm">Auto-draft the updated section →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dTyping" style="display:none;padding:0 18px 8px;">
+    <div style="display:flex;gap:10px;align-items:center;">
+      <div style="width:26px;height:26px;border-radius:7px;background:rgba(196,85,106,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="#c4556a" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="#c4556a" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+      <div style="background:var(--cream-md);border:1px solid var(--sand);border-radius:2px 10px 10px 10px;padding:10px 14px;display:flex;gap:4px;align-items:center;">
+        <span style="width:5px;height:5px;border-radius:50%;background:var(--rose);display:inline-block;animation:dp .9s ease infinite;"></span>
+        <span style="width:5px;height:5px;border-radius:50%;background:var(--rose);display:inline-block;animation:dp .9s ease .2s infinite;"></span>
+        <span style="width:5px;height:5px;border-radius:50%;background:var(--rose);display:inline-block;animation:dp .9s ease .4s infinite;"></span>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:12px 18px;border-top:1px solid var(--sand);display:flex;gap:8px;align-items:center;">
+    <input id="dChatInput" type="text" placeholder="Ask any RCRA compliance question..." class="fi" style="flex:1;font-size:12px;" onkeydown="if(event.key==='Enter')dSendQ()">
+    <button onclick="dSendQ()" class="btn bp bsm" style="padding:7px 14px;white-space:nowrap;">Send →</button>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div style="display:flex;flex-direction:column;gap:10px;">
+
+  <div class="card">
+    <div class="ch"><div class="ct">Try asking</div></div>
+    <div style="padding:8px 10px;display:flex;flex-direction:column;gap:4px;">
+      <button onclick="dAskQ(0)" class="fi" style="text-align:left;cursor:pointer;font-size:11px;color:var(--slate);transition:border-color .15s;line-height:1.4;" onmouseover="this.style.borderColor='var(--rose)';this.style.color='var(--ink)'" onmouseout="this.style.borderColor='var(--sand)';this.style.color='var(--slate)'">"Can I store D001 and D002 in the same satellite area?"</button>
+      <button onclick="dAskQ(1)" class="fi" style="text-align:left;cursor:pointer;font-size:11px;color:var(--slate);transition:border-color .15s;line-height:1.4;" onmouseover="this.style.borderColor='var(--rose)';this.style.color='var(--ink)'" onmouseout="this.style.borderColor='var(--sand)';this.style.color='var(--slate)'">"What changes if we exceed 1,000 kg this month?"</button>
+      <button onclick="dAskQ(2)" class="fi" style="text-align:left;cursor:pointer;font-size:11px;color:var(--slate);transition:border-color .15s;line-height:1.4;" onmouseover="this.style.borderColor='var(--rose)';this.style.color='var(--ink)'" onmouseout="this.style.borderColor='var(--sand)';this.style.color='var(--slate)'">"How do I handle a spill of D001 in my accumulation area?"</button>
+      <button onclick="dAskQ(3)" class="fi" style="text-align:left;cursor:pointer;font-size:11px;color:var(--slate);transition:border-color .15s;line-height:1.4;" onmouseover="this.style.borderColor='var(--rose)';this.style.color='var(--ink)'" onmouseout="this.style.borderColor='var(--sand)';this.style.color='var(--slate)'">"Do new employees need hazwaste training before handling waste?"</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><div class="ct">Storage Area Scan</div><span class="bdg bb">Beta</span></div>
+    <div style="padding:14px 18px;">
+      <p style="font-size:12px;color:var(--slate);line-height:1.65;margin-bottom:12px;">Upload a photo of your satellite accumulation area or drum label. AI checks for labeling violations, incompatible storage, and missing containment.</p>
+      <div onclick="dSimScan()" id="dDropzone" style="border:1.5px dashed var(--sand);border-radius:9px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='var(--rose)'" onmouseout="this.style.borderColor='var(--sand)'">
+        <div style="font-size:22px;margin-bottom:6px;">📷</div>
+        <div style="font-size:12px;font-weight:500;color:var(--ink);margin-bottom:2px;">Click to upload photo</div>
+        <div style="font-size:10px;color:var(--slate);opacity:.55;">Storage area · Drum label</div>
+      </div>
+      <div id="dScanResult" style="display:none;margin-top:10px;display:flex;flex-direction:column;gap:5px;">
+        <div style="font-size:11px;font-weight:600;color:var(--a);margin-bottom:4px;">⚠ Scan complete — 2 items flagged</div>
+        <div style="background:var(--a2);border-radius:7px;padding:8px 11px;"><div style="font-size:11px;font-weight:600;color:var(--a);">⚠ Drum D-2247 — start date not visible</div><div style="font-size:10px;color:var(--slate);margin-top:2px;">40 CFR §262.16(b)(2)</div></div>
+        <div style="background:var(--r2);border-radius:7px;padding:8px 11px;"><div style="font-size:11px;font-weight:600;color:var(--r);">🚫 D001 + D002 within 3ft — incompatible</div><div style="font-size:10px;color:var(--slate);margin-top:2px;">40 CFR §264.177(c)</div></div>
+        <div style="background:var(--g2);border-radius:7px;padding:8px 11px;"><div style="font-size:11px;font-weight:600;color:var(--g);">✅ Secondary containment adequate</div><div style="font-size:10px;color:var(--slate);margin-top:2px;">40 CFR §264.175</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ch"><div class="ct">Recent questions</div></div>
+    <div style="padding:4px 0;">
+      <div style="padding:9px 18px;border-bottom:1px solid rgba(0,0,0,.04);font-size:11px;color:var(--slate);">Do I need to file a biennial report this March?<div style="font-size:10px;opacity:.45;margin-top:1px;">2 days ago</div></div>
+      <div style="padding:9px 18px;border-bottom:1px solid rgba(0,0,0,.04);font-size:11px;color:var(--slate);">What's the LDR treatment standard for D001?<div style="font-size:10px;opacity:.45;margin-top:1px;">5 days ago</div></div>
+      <div style="padding:9px 18px;font-size:11px;color:var(--slate);">Can I use a 275-gal IBC for accumulation?<div style="font-size:10px;opacity:.45;margin-top:1px;">1 week ago</div></div>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+</div><!-- /cnt -->
+</div><!-- /main -->
+</div><!-- /APP -->
+
+<script>
+const titles={db:'Compliance Dashboard',cl:'AI Waste Classifier',mf:'Manifest Generation',vt:'Document Vault',ip:'Inspection Readiness',ts:'TSDF Integrations',ai:'AI Compliance Assistant'};
+function login(){document.getElementById('LS').style.display='none';document.getElementById('APP').style.display='flex';}
+function go(s,btn){
+document.querySelectorAll('.sc').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.ni').forEach(x=>x.classList.remove('on'));
+document.getElementById('sc-'+s).classList.add('on');
+if(btn)btn.classList.add('on');
+document.getElementById('PT').textContent=titles[s];
+document.querySelector('.cnt').scrollTop=0;
+}
+function classify(){
+const th=document.getElementById('TH'),rb=document.getElementById('RB'),cb=document.getElementById('CB');
+rb.style.display='none';th.style.display='flex';cb.disabled=true;cb.textContent='Analyzing...';
+setTimeout(()=>{th.style.display='none';rb.style.display='block';cb.disabled=false;cb.innerHTML='<svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="vertical-align:middle;margin-right:5px;"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Classify waste';},2200);
+}
+function clearCL(){document.getElementById('WI').value='';document.getElementById('RB').style.display='none';document.getElementById('TH').style.display='none';}
+function saveP(){const b=event.target;b.textContent='✓ Saved!';b.style.background='#15803d';setTimeout(()=>{b.textContent='Save as waste profile';b.style.background='';},2000);}
+const WD={D001:{code:'D001',dot:'Flammable liquid, n.o.s.',un:'UN1993',haz:'Class 3 · PG II'},D002:{code:'D002',dot:'Corrosive liquid, n.o.s.',un:'UN1760',haz:'Class 8 · PG II'},F003:{code:'F003',dot:'Flammable liquid, n.o.s.',un:'UN1993',haz:'Class 3 · PG II'}};
+function upW(v){const d=WD[v];if(!d)return;document.getElementById('EC').value=d.code;document.getElementById('DN').value=d.dot;document.getElementById('UN').value=d.un;document.getElementById('HC').value=d.haz;}
+function submitM(){const b=event.target;b.textContent='Submitting to EPA e-Manifest...';b.disabled=true;b.style.opacity='.6';setTimeout(()=>{document.getElementById('MF').style.display='none';document.getElementById('MS').style.display='block';},1800);}
+function resetM(){document.getElementById('MF').style.display='block';document.getElementById('MS').style.display='none';const b=document.querySelector('#MF .bp');b.textContent='✓ E-sign and submit to EPA e-Manifest →';b.disabled=false;b.style.opacity='1';}
+function filterV(q){const items=document.querySelectorAll('.di');const ql=q.toLowerCase();items.forEach(i=>{i.style.display=i.textContent.toLowerCase().includes(ql)?'flex':'none';});}
+function genAudit(){const p=document.getElementById('APK');if(p){p.style.display='block';p.scrollIntoView({behavior:'smooth',block:'nearest'});}}
+function confirmManifest(id){
+  const row=document.getElementById('mrow-'+id);
+  const btn=document.getElementById('mbtn-'+id);
+  btn.textContent='Confirming...';btn.disabled=true;btn.style.opacity='.5';
+  setTimeout(()=>{
+    row.style.background='rgba(22,163,74,.04)';
+    row.innerHTML=row.innerHTML
+      .replace('<span class="bdg ba2">In Transit</span>','<span class="bdg bg2">Confirmed</span>')
+      .replace('35-day window: Day 4 of 35','Confirmed at dock · Day 4 · Clock stopped ✓')
+      .replace('Dock scan received — pending confirmation','Dock scan received · Confirmed Apr 29, 09:14 AM');
+    const btnNew=document.getElementById('mbtn-'+id);
+    if(btnNew){btnNew.style.display='none';}
+    showConfirmAlert();
+  },1600);
+}
+function showConfirmAlert(){
+  const a=document.getElementById('confAlert');
+  if(a){a.style.display='flex';setTimeout(()=>{a.style.opacity='0';a.style.transition='opacity .5s';setTimeout(()=>{a.style.display='none';a.style.opacity='1';a.style.transition='';},500);},4000);}
+}
+function submitProfile(){
+  const b=event.target;
+  b.textContent='Sending to TSDF...';b.disabled=true;b.style.opacity='.6';
+  setTimeout(()=>{
+    document.getElementById('profileForm').style.display='none';
+    document.getElementById('profileSent').style.display='block';
+  },1800);
+}
+function resetProfile(){
+  document.getElementById('profileForm').style.display='block';
+  document.getElementById('profileSent').style.display='none';
+}
+// AI CHAT
+const dQs=[
+  {q:"Can I store D001 and D002 in the same satellite area?",a:"No — D001 (flammable) and D002 (corrosive) are incompatible waste streams. Storing them together violates <b style='font-family:monospace;font-size:11px;color:var(--burg);'>40 CFR §264.177(c)</b>, which prohibits storing incompatible wastes without adequate separation. They must be kept apart with physical barriers or sufficient distance to prevent dangerous reactions if a spill occurs.",cite:"40 CFR §264.177(c) · Incompatible waste separation"},
+  {q:"What changes if we exceed 1,000 kg this month?",a:"Your obligations change immediately the month you exceed 1,000 kg. Under <b style='font-family:monospace;font-size:11px;color:var(--burg);'>40 CFR §262.13</b>, you must comply with LQG standards starting that month — including the 90-day accumulation limit (down from 180), an updated contingency plan, and annual training. Your platform has recalculated your active container limits automatically.",cite:"40 CFR §262.13 · Effective immediately upon exceedance"},
+  {q:"How do I handle a spill of D001 in my accumulation area?",a:"Stop the source if safe to do so, evacuate non-essential personnel, and implement your contingency plan. Under <b style='font-family:monospace;font-size:11px;color:var(--burg);'>40 CFR §262.256</b>, you must contain the release, clean up the spill, and document the incident. If the spill reaches a drain or waterway, notify the National Response Center at 1-800-424-8802 immediately.",cite:"40 CFR §262.256 · NRC notification may be required"},
+  {q:"Do new employees need hazwaste training before handling waste?",a:"Yes — under <b style='font-family:monospace;font-size:11px;color:var(--burg);'>40 CFR §262.16(b)(9)</b> for SQGs and <b style='font-family:monospace;font-size:11px;color:var(--burg);'>40 CFR §264.16</b> for LQGs, personnel who manage hazardous waste must complete training within 6 months of hire and annually thereafter. They must not work unsupervised until training is complete. Training records must be retained for 3 years.",cite:"40 CFR §264.16 · LQG training requirement · Records 3 years"}
+];
+
+function dAddMsg(text,isUser){
+  const msgs=document.getElementById('dChatMsgs');
+  const div=document.createElement('div');
+  div.style.cssText=`display:flex;${isUser?'justify-content:flex-end;':'gap:10px;align-items:flex-start;'}`;
+  if(isUser){
+    div.innerHTML=`<div style="background:var(--burg);border-radius:10px 10px 2px 10px;padding:10px 14px;max-width:78%;"><div style="font-size:12px;color:var(--cream);line-height:1.55;">${text}</div></div>`;
+  } else {
+    div.innerHTML=`<div style="width:26px;height:26px;border-radius:7px;background:rgba(196,85,106,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="#c4556a" stroke-width="1.3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="#c4556a" stroke-width="1.3" stroke-linecap="round"/></svg></div><div style="background:var(--cream-md);border:1px solid var(--sand);border-radius:2px 10px 10px 10px;padding:10px 14px;max-width:85%;">${text}</div>`;
+  }
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function dShowTyping(){
+  document.getElementById('dTyping').style.display='block';
+  const msgs=document.getElementById('dChatMsgs');
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function dHideTyping(){document.getElementById('dTyping').style.display='none';}
+
+function dAskQ(idx){
+  const q=dQs[idx];
+  dAddMsg(q.q,true);
+  dShowTyping();
+  setTimeout(()=>{
+    dHideTyping();
+    dAddMsg(`<div style="font-size:12px;color:var(--ink);line-height:1.7;margin-bottom:6px;">${q.a}</div><div style="display:flex;align-items:center;gap:8px;"><span style="font-size:10px;font-weight:600;color:var(--g);background:var(--g2);padding:2px 8px;border-radius:4px;">${q.cite.split('·')[0].trim()}</span><span style="font-size:10px;color:var(--slate);opacity:.5;">${q.cite.split('·').slice(1).join('·')}</span></div>`,false);
+  },1600);
+}
+
+function dSendQ(){
+  const inp=document.getElementById('dChatInput');
+  const val=inp.value.trim();
+  if(!val)return;
+  dAddMsg(val,true);
+  inp.value='';
+  dShowTyping();
+  setTimeout(()=>{
+    dHideTyping();
+    dAddMsg(`<div style="font-size:12px;color:var(--ink);line-height:1.7;">Based on your LQG status in New York, I'm cross-referencing 40 CFR Parts 262 and 264 for your specific situation. <span style="font-style:italic;color:var(--slate);">In the full platform this returns a complete answer with citations specific to your generator status, state requirements, and active waste profiles.</span></div>`,false);
+  },1800);
+}
+
+function dDraft(){
+  const b=event.target;
+  b.textContent='Drafting...'; b.disabled=true; b.style.opacity='.6';
+  setTimeout(()=>{
+    b.textContent='✓ Draft ready — saved to Document Vault';
+    b.style.background='var(--g)'; b.disabled=false; b.style.opacity='1';
+  },2000);
+}
+
+function dSimScan(){
+  const dz=document.getElementById('dDropzone');
+  const res=document.getElementById('dScanResult');
+  dz.innerHTML='<div style="font-size:22px;margin-bottom:6px;animation:spin2 1s linear infinite;display:inline-block;">⏳</div><div style="font-size:12px;color:var(--slate);">Analyzing image...</div>';
+  setTimeout(()=>{
+    dz.style.display='none';
+    res.style.display='flex';
+  },2200);
+}
+
+
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&document.getElementById("LS").style.display!=="none")login();});
+</script>
+</body>
+</html>
+
